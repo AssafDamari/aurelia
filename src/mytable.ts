@@ -4,20 +4,38 @@ import 'fetch';
 
 @autoinject
 export class Mytable {
-  
-  users = [];
 
-  constructor(private http: HttpClient) {
-    http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl('https://api.github.com/');
-    });
-  }
+    sortDir: string = "asc";
+    users = [];
 
-  activate() {
-    return this.http.fetch('users')
-      .then(response => response.json())
-      .then(users => this.users = users);
-  }
+    constructor(private http: HttpClient) {
+        http.configure(config => {
+            config
+                .useStandardConfiguration()
+                .withBaseUrl('https://api.github.com/');
+        });
+    }
+
+    activate() {
+        return this.http.fetch('users')
+            .then(response => response.json())
+            .then(users => this.users = users);
+    }
+
+    sort() {
+
+        let factor = -1;
+
+        if (this.sortDir === 'asc') {
+            this.sortDir = 'desc';
+            factor = 1;
+        } else {
+            this.sortDir = 'asc';
+            factor = -1;
+        }
+        this.users.sort((user1, user2) => {
+            return (user1.id - user2.id) * factor;
+        });
+
+    }
 }
