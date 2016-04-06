@@ -22,7 +22,7 @@ export class Mytable {
             .then(users => this.users = users);
     }
 
-    sort() {
+    sort(sortBy:string) {
 
         let factor = -1;
 
@@ -34,7 +34,8 @@ export class Mytable {
             factor = -1;
         }
         this.users.sort((user1, user2) => {
-            return (user1.id - user2.id) * factor;
+            
+            return (user1[sortBy] - user2[sortBy]) * factor;
         });
 
     }
