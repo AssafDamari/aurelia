@@ -3,16 +3,13 @@
         <h2>Users table</h2>
         <table class="table">
             <tr>
-                <th><a href="#" click.trigger="sort('id')">id</a></td>
-                <th>login</td>
-                <th>type</td>
-                <th>url</td>
+                <th repeat.for="column of columns" class="column" class.bind="column">
+                    <a href="#" click.trigger="sort(column)">${column}</a>
+                    <span class="glyphicon sort-arrow" class.bind="sortBy+sortDir"></span>
+                </th>
             </tr>
             <tr repeat.for="user of users">
-                <td>${user.id}</td>
-                <td>${user.login}</td>
-                <td>${user.type}</td>
-                <td>${user.url}</td>
+                <td repeat.for="column of columns">${user[column]}</td>
             </tr>
         </table>
     </section>

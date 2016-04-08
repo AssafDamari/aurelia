@@ -6,7 +6,9 @@ import 'fetch';
 export class Mytable {
 
     sortDir: string = "asc";
+    sortBy: string = "id";
     users = [];
+    columns = ["id", "login", "type", "url", "site_admin"];
 
     constructor(private http: HttpClient) {
         http.configure(config => {
@@ -17,15 +19,33 @@ export class Mytable {
     }
 
     activate() {
+        this.sort(this.sortBy);
         return this.http.fetch('users')
             .then(response => response.json())
             .then(users => this.users = users);
+            
     }
 
-    sort(sortBy:string) {
+    sort(sortBy: string) {
+        if (sortBy) {
+            this.sortBy = sortBy;
+        }
+        
+        let factor = this.toggleSortDir();
 
-        let factor = -1;
+        this.users.sort((user1, user2) => {
+            if (typeof user1[this.sortBy] == "string") {
+                return user1[this.sortBy].localeCompare(user2[this.sortBy]) * factor;
+            } else if (typeof user1[this.sortBy] == "number") {
+                return (user1[this.sortBy] - user2[this.sortBy]) * factor;
+            } else if (typeof user1[this.sortBy] == "boolean") {
+                return (user1[this.sortBy] ? 1 : -1) * factor;
+            }
+        });
+    }
 
+    toggleSortDir(): number {
+        let factor: number = -1;
         if (this.sortDir === 'asc') {
             this.sortDir = 'desc';
             factor = 1;
@@ -33,10 +53,7 @@ export class Mytable {
             this.sortDir = 'asc';
             factor = -1;
         }
-        this.users.sort((user1, user2) => {
-            
-            return (user1[sortBy] - user2[sortBy]) * factor;
-        });
-
+        return factor;
     }
+
 }
