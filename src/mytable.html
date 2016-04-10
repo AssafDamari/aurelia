@@ -1,16 +1,18 @@
 <template>
     <section>
         <h2>Users table</h2>
-        <table class="table">
-            <tr>
-                <th repeat.for="column of columns" class="column" class.bind="column">
-                    <a href="#" click.trigger="sort(column)">${column}</a>
-                    <span class="glyphicon sort-arrow" class.bind="sortBy+sortDir"></span>
-                </th>
-            </tr>
-            <tr repeat.for="user of users">
-                <td repeat.for="column of columns">${user[column]}</td>
-            </tr>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th repeat.for="column of columns" class="column" class.bind="column">
+                        <a href="#" click.trigger="sort(column)">${column}</a>
+                        <span class="glyphicon sort-arrow" class.bind="sortBy+sortDir"></span>
+                    </th>
+                </tr>
+                <tr repeat.for="user of users">
+                    <td repeat.for="column of columns">${user[column]}</td>
+                </tr>
+            </table>
+        </div>
     </section>
 </template>
