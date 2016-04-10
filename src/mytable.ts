@@ -1,6 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import 'fetch';
+import {MyData} from './myData'
 
 @autoinject
 export class Mytable {
@@ -10,7 +11,8 @@ export class Mytable {
     users = [];
     columns = ["id", "login", "type", "url", "site_admin"];
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,private myData:MyData) {
+        
         http.configure(config => {
             config
                 .useStandardConfiguration()
